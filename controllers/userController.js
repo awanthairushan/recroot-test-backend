@@ -68,6 +68,7 @@ const registerUser = async (req, res) => {
         await imageUpload(req.file, imageName);
     } catch (error) {
         res.status(500).json({message: "Image upload unsuccessful", data: error});
+        return
     }
 
     try {
@@ -112,7 +113,7 @@ const getCurrentUser = async (req, res) => {
         profilePictureLink: profilePictureLink,
     }
 
-    res.status(200).json({message: "User registered successfully!", data: {user: userWithImage}});
+    res.status(200).json({message: "synced data successfully!", data: {user: userWithImage}});
 }
 
 const verifyUser = async (userId) => {
