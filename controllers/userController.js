@@ -115,4 +115,15 @@ const getCurrentUser = async (req, res) => {
     res.status(200).json({message: "User registered successfully!", data: {user: userWithImage}});
 }
 
-module.exports = {registerUser, loginUser, getCurrentUser};
+const verifyUser = async (userId) => {
+
+    try {
+        const user = await User.findById(userId);
+        return !!user;
+    } catch (error) {
+        return false
+    }
+
+}
+
+module.exports = {registerUser, loginUser, getCurrentUser, verifyUser};

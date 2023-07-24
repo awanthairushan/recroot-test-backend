@@ -1,6 +1,13 @@
 const Post = require('../models/postModel');
+const {verifyUser} = require('./userController')
+
 const addPost = async (req, res) => {
-    const {header, body, postedDate, authorName} = req.body;
+    const {header, body, postedDate, authorName, userId} = req.body;
+    const isUserAuthorized = await verifyUser(userId)
+    if (!isUserAuthorized){
+        res.status(401).json({message: "User must be login to the system", data: null});
+        return
+    }
     if (!header || typeof header !== "string" || header === "") {
         res.status(400).json({message: "Header is invalid", data: null});
     } else if (!body || typeof body !== "string" || body === "") {
@@ -48,7 +55,12 @@ const deletePost = async (req, res) => {
 }
 
 const updatePost = async (req, res) => {
-    const {header, body, postedDate, authorName} = req.body;
+    const {header, body, postedDate, authorName, userId} = req.body;
+    const isUserAuthorized = await verifyUser(userId)
+    if (!isUserAuthorized){
+        res.status(401).json({message: "User must be login to the system", data: null});
+        return
+    }
     if (!header || typeof header !== "string" || header === "") {
         res.status(400).json({message: "Header is invalid", data: null});
     } else if (!body || typeof body !== "string" || body === "") {
